@@ -1,0 +1,18 @@
+{
+  "@@locale": "ar",
+  "appTitle": "Age Calc",
+  "splashTagline": "مستكشف العمر الكوني",
+  "splashDescription": "اكتشف عمرك عبر\nالفضاء والزمن",
+  "beginExploration": "ابدأ الاستكشاف  ↗",
+  "privacyNote": "لا تغادر بياناتك جهازك",
+  "language": "اللغة",
+  "settings": "الإعدادات",
+  "settingsSubtitle": "اللغة والمظهر والتفضيلات",
+  "theme": "المظهر",
+  "darkMode": "الوضع الداكن",
+  "navCalc": "حساب",
+  "navPlanets": "كواكب",
+  "navCompare": "مقارنة",
+  "navMembers": "الأعضاء",
+  "navSettings": "إعدادات"
+}

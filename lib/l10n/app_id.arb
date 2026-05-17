@@ -1,0 +1,18 @@
+{
+  "@@locale": "id",
+  "appTitle": "Age Calc",
+  "splashTagline": "PENJELAJAH USIA KOSMIK",
+  "splashDescription": "Temukan usia Anda melintasi\nruang angkasa dan waktu",
+  "beginExploration": "MULAI EKSPLORASI  ↗",
+  "privacyNote": "Tidak ada data yang keluar dari perangkat Anda",
+  "language": "Bahasa",
+  "settings": "Pengaturan",
+  "settingsSubtitle": "Bahasa, tema & preferensi",
+  "theme": "Tema",
+  "darkMode": "Mode gelap",
+  "navCalc": "Hitung",
+  "navPlanets": "Planet",
+  "navCompare": "Banding",
+  "navMembers": "Anggota",
+  "navSettings": "Setelan"
+}

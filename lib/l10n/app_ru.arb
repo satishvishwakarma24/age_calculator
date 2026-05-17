@@ -1,0 +1,18 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Age Calc",
+  "splashTagline": "КОСМИЧЕСКИЙ ИССЛЕДОВАТЕЛЬ ВОЗРАСТА",
+  "splashDescription": "Узнайте свой возраст в\nпространстве и времени",
+  "beginExploration": "НАЧАТЬ ИССЛЕДОВАНИЕ  ↗",
+  "privacyNote": "Данные не покидают ваше устройство",
+  "language": "Язык",
+  "settings": "Настройки",
+  "settingsSubtitle": "Язык, тема и предпочтения",
+  "theme": "Тема",
+  "darkMode": "Тёмный режим",
+  "navCalc": "Расчёт",
+  "navPlanets": "Планеты",
+  "navCompare": "Сравнить",
+  "navMembers": "Участники",
+  "navSettings": "Настройки"
+}

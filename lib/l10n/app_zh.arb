@@ -1,0 +1,18 @@
+{
+  "@@locale": "zh",
+  "appTitle": "Age Calc",
+  "splashTagline": "宇宙年龄探索器",
+  "splashDescription": "在时空之中\n探索你的年龄",
+  "beginExploration": "开始探索  ↗",
+  "privacyNote": "数据不会离开您的设备",
+  "language": "语言",
+  "settings": "设置",
+  "settingsSubtitle": "语言、主题与偏好",
+  "theme": "主题",
+  "darkMode": "深色模式",
+  "navCalc": "计算",
+  "navPlanets": "行星",
+  "navCompare": "比较",
+  "navMembers": "成员",
+  "navSettings": "设置"
+}

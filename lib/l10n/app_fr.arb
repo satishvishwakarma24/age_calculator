@@ -1,0 +1,18 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Age Calc",
+  "splashTagline": "EXPLORATEUR D'ÂGE COSMIQUE",
+  "splashDescription": "Découvrez votre âge à travers\nl'espace et le temps",
+  "beginExploration": "COMMENCER L'EXPLORATION  ↗",
+  "privacyNote": "Aucune donnée ne quitte votre appareil",
+  "language": "Langue",
+  "settings": "Paramètres",
+  "settingsSubtitle": "Langue, thème et préférences",
+  "theme": "Thème",
+  "darkMode": "Mode sombre",
+  "navCalc": "Calc",
+  "navPlanets": "Planètes",
+  "navCompare": "Comparer",
+  "navMembers": "Membres",
+  "navSettings": "Paramètres"
+}

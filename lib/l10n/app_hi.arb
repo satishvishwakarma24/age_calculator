@@ -1,0 +1,18 @@
+{
+  "@@locale": "hi",
+  "appTitle": "Age Calc",
+  "splashTagline": "ब्रह्मांडीय आयु खोजक",
+  "splashDescription": "अंतरिक्ष और समय में\nअपनी आयु जानें",
+  "beginExploration": "खोज शुरू करें  ↗",
+  "privacyNote": "कोई डेटा आपके डिवाइस से बाहर नहीं जाता",
+  "language": "भाषा",
+  "settings": "सेटिंग्स",
+  "settingsSubtitle": "भाषा, थीम और प्राथमिकताएँ",
+  "theme": "थीम",
+  "darkMode": "डार्क मोड",
+  "navCalc": "कैल्क",
+  "navPlanets": "ग्रह",
+  "navCompare": "तुलना",
+  "navMembers": "सदस्य",
+  "navSettings": "सेटिंग्स"
+}

@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "appTitle": "Age Calc",
+  "splashTagline": "COSMIC AGE EXPLORER",
+  "splashDescription": "Discover your age across\nspace and time",
+  "beginExploration": "BEGIN EXPLORATION  ↗",
+  "privacyNote": "No data leaves your device",
+  "language": "Language",
+  "settings": "Settings",
+  "settingsSubtitle": "Language, theme & preferences",
+  "theme": "Theme",
+  "darkMode": "Dark mode",
+  "navCalc": "Calc",
+  "navPlanets": "Planets",
+  "navCompare": "Compare",
+  "navMembers": "Members",
+  "navSettings": "Settings"
+}

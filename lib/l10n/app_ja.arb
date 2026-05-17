@@ -1,0 +1,18 @@
+{
+  "@@locale": "ja",
+  "appTitle": "Age Calc",
+  "splashTagline": "コスミック年齢エクスプローラー",
+  "splashDescription": "宇宙と時間を越えて\nあなたの年齢を発見",
+  "beginExploration": "探索を始める  ↗",
+  "privacyNote": "データはデバイスから送信されません",
+  "language": "言語",
+  "settings": "設定",
+  "settingsSubtitle": "言語、テーマ、各種設定",
+  "theme": "テーマ",
+  "darkMode": "ダークモード",
+  "navCalc": "計算",
+  "navPlanets": "惑星",
+  "navCompare": "比較",
+  "navMembers": "メンバー",
+  "navSettings": "設定"
+}
