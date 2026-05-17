@@ -74,7 +74,9 @@ class CosmicDateField extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        InkWell(
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(AppDimens.radiusField),
           child: Container(
@@ -97,6 +99,7 @@ class CosmicDateField extends StatelessWidget {
             ),
           ),
         ),
+        ),
       ],
     );
   }
@@ -108,38 +111,64 @@ class CosmicDateField extends StatelessWidget {
 
 class CosmicButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final String? loadingLabel;
+  final VoidCallback? onPressed;
   final Gradient gradient;
   final IconData? icon;
+  final bool isLoading;
 
   const CosmicButton({
     super.key,
     required this.label,
     required this.onPressed,
+    this.loadingLabel,
     this.gradient = AppGradients.ctaBlue,
     this.icon,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          gradient: gradient,
-          borderRadius: BorderRadius.circular(AppDimens.radiusButton),
-          boxShadow: AppShadows.glowBlue(spread: 16, opacity: 0.3),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) ...[
-              Icon(icon, size: 16, color: AppColors.textOnCta),
-              const SizedBox(width: 8),
+    final enabled = !isLoading && onPressed != null;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: enabled ? onPressed : null,
+        borderRadius: BorderRadius.circular(AppDimens.radiusButton),
+        child: Ink(
+          height: 48,
+          decoration: BoxDecoration(
+            gradient: gradient,
+            borderRadius: BorderRadius.circular(AppDimens.radiusButton),
+            boxShadow: AppShadows.glowBlue(spread: 16, opacity: 0.3),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (isLoading) ...[
+                const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.textOnCta,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  loadingLabel ?? 'Calculating…',
+                  style: AppText.ctaButton,
+                ),
+              ] else ...[
+                if (icon != null) ...[
+                  Icon(icon, size: 16, color: AppColors.textOnCta),
+                  const SizedBox(width: 8),
+                ],
+                Text(label, style: AppText.ctaButton),
+              ],
             ],
-            Text(label, style: AppText.ctaButton),
-          ],
+          ),
         ),
       ),
     );

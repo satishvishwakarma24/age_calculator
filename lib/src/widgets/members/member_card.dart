@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/member_display.dart';
 import '../../../core/theme/app_theme.dart';
 import '../common/cosmic_widgets.dart';
 
@@ -174,30 +175,4 @@ class _BannerRow extends StatelessWidget {
       ),
     );
   }
-}
-
-// ─────────────────────────────────────────────
-//  MemberData — display model
-// ─────────────────────────────────────────────
-
-class MemberData {
-  final String id;
-  final String name;
-  final String avatar;         // emoji or initials
-  final String dobFormatted;
-  final String ageLabel;       // e.g. "33 yrs"
-  final Color accentColor;
-  final bool isPinned;
-  final String? birthdayIn;    // e.g. "13 days" or null
-
-  const MemberData({
-    required this.id,
-    required this.name,
-    required this.avatar,
-    required this.dobFormatted,
-    required this.ageLabel,
-    required this.accentColor,
-    this.isPinned = false,
-    this.birthdayIn,
-  });
 }

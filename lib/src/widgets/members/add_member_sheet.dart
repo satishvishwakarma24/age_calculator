@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../../../core/theme/app_theme.dart';
 import '../common/cosmic_widgets.dart';
 
@@ -6,27 +8,21 @@ import '../common/cosmic_widgets.dart';
 //  AddMemberSheet
 //  Modal bottom sheet for adding / editing a
 //  saved member profile.
-//
-//  Usage:
-//    showModalBottomSheet(
-//      context: context,
-//      isScrollControlled: true,
-//      backgroundColor: Colors.transparent,
-//      builder: (_) => AddMemberSheet(onSave: (name, dob) { ... }),
-//    );
 // ─────────────────────────────────────────────
 
 class AddMemberSheet extends StatefulWidget {
-  final void Function(String name, String dob, String avatar) onSave;
+  final void Function(String name, DateTime birthDate, String avatar) onSave;
+  final VoidCallback? onDelete;
   final String? initialName;
-  final String? initialDob;
+  final DateTime? initialBirthDate;
   final String? initialAvatar;
 
   const AddMemberSheet({
     super.key,
     required this.onSave,
+    this.onDelete,
     this.initialName,
-    this.initialDob,
+    this.initialBirthDate,
     this.initialAvatar,
   });
 
@@ -36,19 +32,23 @@ class AddMemberSheet extends StatefulWidget {
 
 class _AddMemberSheetState extends State<AddMemberSheet> {
   late final TextEditingController _nameCtrl;
-  String _selectedDob = '';
-  String _selectedAvatar = '👤';
+  late DateTime? _birthDate;
+  late String _selectedAvatar;
+
+  static final _dobFormat = DateFormat('d MMM yyyy');
 
   static const _avatars = [
     '👨', '👩', '👧', '👦', '👴', '👵', '🧑', '👶',
     '🧔', '👱', '🧕', '🧒',
   ];
 
+  bool get _isEdit => widget.initialName != null;
+
   @override
   void initState() {
     super.initState();
     _nameCtrl = TextEditingController(text: widget.initialName ?? '');
-    _selectedDob = widget.initialDob ?? '';
+    _birthDate = widget.initialBirthDate;
     _selectedAvatar = widget.initialAvatar ?? '👤';
   }
 
@@ -58,14 +58,45 @@ class _AddMemberSheetState extends State<AddMemberSheet> {
     super.dispose();
   }
 
-  void _pickDob() {
-    // Phase 2: launch CupertinoDatePicker or showDatePicker
-    setState(() => _selectedDob = '01 Jan 2000');
+  Future<void> _pickDob() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _birthDate ?? DateTime(2000),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.dark(
+              primary: Color(0xFF4FC3F7),
+              onPrimary: Color(0xFF050A18),
+              surface: Color(0xFF0D1B2A),
+              onSurface: Colors.white,
+            ),
+            dialogTheme: const DialogThemeData(
+              backgroundColor: Color(0xFF0D1B2A),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked == null) return;
+    setState(() => _birthDate = DateTime(picked.year, picked.month, picked.day));
+  }
+
+  void _submit() {
+    final name = _nameCtrl.text.trim();
+    if (name.isEmpty || _birthDate == null) return;
+    widget.onSave(name, _birthDate!, _selectedAvatar);
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isEdit = widget.initialName != null;
+    final dobLabel = _birthDate == null
+        ? 'Select date'
+        : _dobFormat.format(_birthDate!);
 
     return Container(
       decoration: BoxDecoration(
@@ -83,7 +114,6 @@ class _AddMemberSheetState extends State<AddMemberSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Handle ──────────────────────────────────────
           Center(
             child: Container(
               width: 38,
@@ -96,14 +126,12 @@ class _AddMemberSheetState extends State<AddMemberSheet> {
           ),
           const SizedBox(height: 20),
 
-          // ── Title ────────────────────────────────────────
           Text(
-            isEdit ? 'EDIT MEMBER' : 'ADD MEMBER',
+            _isEdit ? 'EDIT MEMBER' : 'ADD MEMBER',
             style: AppText.appBarTitle.copyWith(fontSize: 14),
           ),
           const SizedBox(height: AppDimens.gapXl),
 
-          // ── Avatar picker ─────────────────────────────────
           Text('AVATAR', style: AppText.fieldLabel),
           const SizedBox(height: 8),
           SizedBox(
@@ -134,8 +162,7 @@ class _AddMemberSheetState extends State<AddMemberSheet> {
                       ),
                     ),
                     alignment: Alignment.center,
-                    child: Text(av,
-                        style: const TextStyle(fontSize: 20)),
+                    child: Text(av, style: const TextStyle(fontSize: 20)),
                   ),
                 );
               },
@@ -143,36 +170,35 @@ class _AddMemberSheetState extends State<AddMemberSheet> {
           ),
           const SizedBox(height: AppDimens.gapLg),
 
-          // ── Name field ────────────────────────────────────
           Text('NAME', style: AppText.fieldLabel),
           const SizedBox(height: 8),
           TextField(
             controller: _nameCtrl,
             style: AppText.dateValue,
             cursorColor: AppColors.starBlue,
+            textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
               hintText: 'Enter name',
-              hintStyle: AppText.dateValue
-                  .copyWith(color: AppColors.textMuted),
+              hintStyle:
+                  AppText.dateValue.copyWith(color: AppColors.textMuted),
               filled: true,
               fillColor: AppColors.glassBlue,
               contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 14, vertical: 14),
+                horizontal: 14,
+                vertical: 14,
+              ),
               border: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(AppDimens.radiusField),
-                borderSide: BorderSide(
-                    color: AppColors.glassBorder, width: 0.8),
+                borderRadius: BorderRadius.circular(AppDimens.radiusField),
+                borderSide:
+                    BorderSide(color: AppColors.glassBorder, width: 0.8),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(AppDimens.radiusField),
-                borderSide: BorderSide(
-                    color: AppColors.glassBorder, width: 0.8),
+                borderRadius: BorderRadius.circular(AppDimens.radiusField),
+                borderSide:
+                    BorderSide(color: AppColors.glassBorder, width: 0.8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(AppDimens.radiusField),
+                borderRadius: BorderRadius.circular(AppDimens.radiusField),
                 borderSide:
                     const BorderSide(color: AppColors.starBlue, width: 1.2),
               ),
@@ -180,30 +206,38 @@ class _AddMemberSheetState extends State<AddMemberSheet> {
           ),
           const SizedBox(height: AppDimens.gapLg),
 
-          // ── DOB picker ────────────────────────────────────
           CosmicDateField(
             label: 'Date of Birth',
-            value: _selectedDob.isEmpty ? 'Select date' : _selectedDob,
+            value: dobLabel,
+            accentColor: AppColors.lavender,
             onTap: _pickDob,
           ),
           const SizedBox(height: AppDimens.gapXl),
 
-          // ── Save button ───────────────────────────────────
           CosmicButton(
-            label: isEdit ? 'SAVE CHANGES' : 'ADD TO COSMOS',
+            label: _isEdit ? 'SAVE CHANGES' : 'ADD TO COSMOS',
             gradient: AppGradients.ctaLavender,
-            onPressed: () {
-              if (_nameCtrl.text.trim().isNotEmpty &&
-                  _selectedDob.isNotEmpty) {
-                widget.onSave(
-                  _nameCtrl.text.trim(),
-                  _selectedDob,
-                  _selectedAvatar,
-                );
-                Navigator.of(context).pop();
-              }
-            },
+            onPressed: _submit,
           ),
+
+          if (_isEdit && widget.onDelete != null) ...[
+            const SizedBox(height: AppDimens.gapMd),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  widget.onDelete!();
+                },
+                child: Text(
+                  'Delete member',
+                  style: AppText.statLabel.copyWith(
+                    color: AppColors.mars,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

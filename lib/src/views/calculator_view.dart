@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../../core/theme/app_theme.dart';
+import '../utils/age_calculator_provider.dart';
 import '../widgets/common/cosmic_background.dart';
 import '../widgets/common/cosmic_widgets.dart';
 import '../widgets/calculator/age_result_card.dart';
@@ -7,33 +10,18 @@ import '../widgets/calculator/birthday_countdown_card.dart';
 
 // ─────────────────────────────────────────────
 //  CalculatorView
-//  Main age calculator screen.
-//
-//  State will be wired via a CalculatorController
-//  in Phase 2. All values here are display-only
-//  placeholders that match the design preview.
+//  Main age calculator screen — DOB picker,
+//  calculate CTA, and live results.
 // ─────────────────────────────────────────────
 
-class CalculatorView extends StatefulWidget {
+class CalculatorView extends StatelessWidget {
   const CalculatorView({super.key});
 
   @override
-  State<CalculatorView> createState() => _CalculatorViewState();
-}
-
-class _CalculatorViewState extends State<CalculatorView> {
-  // Placeholder date — will be driven by controller in Phase 2
-  final String _dobDisplay = '15 Mar 1992';
-  bool _hasResult = true; // show result section
-
-  void _pickDate() {
-    // Phase 2: show date picker via controller
-    // For now, toggle a visual cue
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final calc = context.watch<AgeCalculatorProvider>();
+    final result = calc.result;
+
     return CosmicBackground(
       child: SafeArea(
         child: SingleChildScrollView(
@@ -66,14 +54,18 @@ class _CalculatorViewState extends State<CalculatorView> {
                   children: [
                     CosmicDateField(
                       label: 'Date of Birth',
-                      value: _dobDisplay,
+                      value: calc.formattedDob,
                       accentColor: AppColors.starBlue,
-                      onTap: _pickDate,
+                      onTap: calc.isCalculating
+                          ? () {}
+                          : () => calc.pickDate(context),
                     ),
                     const SizedBox(height: AppDimens.gapMd),
                     CosmicButton(
                       label: '✦  CALCULATE AGE',
-                      onPressed: () => setState(() => _hasResult = true),
+                      loadingLabel: '✦  CALCULATING…',
+                      isLoading: calc.isCalculating,
+                      onPressed: () => calc.calculate(),
                       gradient: AppGradients.ctaBlue,
                     ),
                   ],
@@ -81,21 +73,29 @@ class _CalculatorViewState extends State<CalculatorView> {
               ),
 
               // ── Results section ──────────────────────────
-              if (_hasResult) ...[
+              if (calc.hasCalculated && result != null) ...[
                 const SizedBox(height: AppDimens.gapMd),
-                const AgeResultCard(
-                  years: 33,
-                  months: 1,
-                  days: 15,
-                  totalDays: 12098,
-                  totalMonths: 397,
-                  totalHours: 290352,
+                AgeResultCard(
+                  years: result.years,
+                  months: result.months,
+                  days: result.days,
+                  totalDays: result.totalDays,
+                  totalMonths: result.totalMonths,
+                  totalHours: result.totalHours,
                 ),
                 const SizedBox(height: AppDimens.gapMd),
-                const BirthdayCountdownCard(
-                  nextBirthdayDate: '15 Mar 2026',
-                  daysUntil: 319,
-                  zodiacSign: 'Pisces ♓',
+                BirthdayCountdownCard(
+                  nextBirthdayDate: calc.formatNextBirthday(),
+                  daysUntil: result.daysUntilBirthday,
+                  zodiacSign: result.zodiacSign,
+                ),
+              ] else if (calc.hasCalculated) ...[
+                const SizedBox(height: AppDimens.gapMd),
+                GlassCard(
+                  child: Text(
+                    'Please choose a date of birth that is not in the future.',
+                    style: AppText.statLabel.copyWith(color: AppColors.amber),
+                  ),
                 ),
               ],
             ],

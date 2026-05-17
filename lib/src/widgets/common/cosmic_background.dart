@@ -70,8 +70,9 @@ class _CosmicBackgroundState extends State<CosmicBackground>
         DecoratedBox(
           decoration: BoxDecoration(gradient: cosmic.backgroundGradient),
         ),
-        // ── Star field ──────────────────────────────────
-        LayoutBuilder(
+        // ── Star field (decorative — must not steal taps) ─
+        IgnorePointer(
+          child: LayoutBuilder(
           builder: (context, constraints) {
             return Stack(
               children: List.generate(_stars.length, (i) {
@@ -99,6 +100,7 @@ class _CosmicBackgroundState extends State<CosmicBackground>
               }),
             );
           },
+        ),
         ),
         // ── Content ─────────────────────────────────────
         widget.child,

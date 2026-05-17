@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 
 import 'app.dart';
 import 'core/theme/theme_provider.dart';
+import 'src/utils/age_calculator_provider.dart';
 import 'core/utils/locale_provider.dart';
+import 'src/utils/members_provider.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => AppThemeProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => AgeCalculatorProvider()),
+        ChangeNotifierProvider(create: (_) => MembersProvider()),
       ],
       child: const AgeCalcApp(),
     ),
