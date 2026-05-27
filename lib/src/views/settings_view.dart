@@ -4,8 +4,8 @@ import 'package:age_calculator/l10n/app_localizations.dart';
 import 'package:age_calculator/core/theme/app_theme.dart';
 import 'package:age_calculator/core/theme/theme_provider.dart';
 import 'package:age_calculator/core/utils/locale_provider.dart';
-import '../widgets/common/cosmic_background.dart';
-import '../widgets/common/cosmic_widgets.dart';
+import 'widgets/common/cosmic_background.dart';
+import 'widgets/common/cosmic_widgets.dart';
 
 // ─────────────────────────────────────────────
 //  SettingsView

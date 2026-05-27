@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/member.dart';
 import '../models/member_display.dart';
 import '../../core/theme/app_theme.dart';
-import 'age_calculation.dart';
+import '../enum/age_calculation.dart';
 
 /// Local member profiles — load/save via SharedPreferences.
 class MembersProvider extends ChangeNotifier {

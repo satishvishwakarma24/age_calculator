@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
-import '../widgets/common/cosmic_background.dart';
-import '../widgets/common/cosmic_widgets.dart';
-import '../widgets/compare/date_timeline_widget.dart';
+import 'widgets/common/cosmic_background.dart';
+import 'widgets/common/cosmic_widgets.dart';
+import 'widgets/compare/date_timeline_widget.dart';
 
 // ─────────────────────────────────────────────
 //  CompareView

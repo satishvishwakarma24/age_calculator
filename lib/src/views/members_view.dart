@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/theme/app_theme.dart';
-import '../utils/members_provider.dart';
-import '../widgets/common/cosmic_background.dart';
-import '../widgets/common/cosmic_widgets.dart';
-import '../widgets/members/member_card.dart';
-import '../widgets/members/add_member_sheet.dart';
+import '../provider/members_provider.dart';
+import 'widgets/common/cosmic_background.dart';
+import 'widgets/common/cosmic_widgets.dart';
+import 'widgets/members/member_card.dart';
+import 'widgets/members/add_member_sheet.dart';
 
 // ─────────────────────────────────────────────
 //  MembersView

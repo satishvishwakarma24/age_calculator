@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import 'app.dart';
 import 'config/services/ads_service.dart';
 import 'core/theme/theme_provider.dart';
-import 'src/utils/age_calculator_provider.dart';
+import 'src/provider/age_calculator_provider.dart';
 import 'core/utils/locale_provider.dart';
-import 'src/utils/members_provider.dart';
+import 'src/provider/members_provider.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

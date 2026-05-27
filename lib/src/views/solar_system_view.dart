@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/theme/app_theme.dart';
-import '../utils/age_calculation.dart';
-import '../utils/age_calculator_provider.dart';
-import '../widgets/common/cosmic_background.dart';
-import '../widgets/common/cosmic_widgets.dart';
-import '../widgets/solar/solar_system_canvas.dart';
-import '../widgets/solar/planet_age_card.dart';
+import '../enum/age_calculation.dart';
+import '../provider/age_calculator_provider.dart';
+import 'widgets/common/cosmic_background.dart';
+import 'widgets/common/cosmic_widgets.dart';
+import 'widgets/solar/solar_system_canvas.dart';
+import 'widgets/solar/planet_age_card.dart';
 
 // ─────────────────────────────────────────────
 //  SolarSystemView

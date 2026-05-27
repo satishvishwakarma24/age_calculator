@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/member_display.dart';
-import '../../../core/theme/app_theme.dart';
+import '../../../models/member_display.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../common/cosmic_widgets.dart';
 
 // ─────────────────────────────────────────────

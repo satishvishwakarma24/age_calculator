@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:age_calculator/core/theme/app_theme.dart';
 import 'package:age_calculator/core/widgets/native_ad_widget.dart';
-import '../widgets/common/cosmic_nav_bar.dart';
+import 'widgets/common/cosmic_nav_bar.dart';
 import 'calculator_view.dart';
 import 'solar_system_view.dart';
 import 'members_view.dart';

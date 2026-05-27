@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'age_calculation.dart';
+import '../enum/age_calculation.dart';
 
 /// Shared DOB + calculated age across Calc and Planets tabs.
 class AgeCalculatorProvider extends ChangeNotifier {

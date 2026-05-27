@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/theme/app_theme.dart';
-import '../utils/age_calculator_provider.dart';
-import '../widgets/common/cosmic_background.dart';
-import '../widgets/common/cosmic_widgets.dart';
-import '../widgets/calculator/age_result_card.dart';
-import '../widgets/calculator/birthday_countdown_card.dart';
+import '../provider/age_calculator_provider.dart';
+import 'widgets/common/cosmic_background.dart';
+import 'widgets/common/cosmic_widgets.dart';
+import 'widgets/calculator/age_result_card.dart';
+import 'widgets/calculator/birthday_countdown_card.dart';
 
 // ─────────────────────────────────────────────
 //  CalculatorView

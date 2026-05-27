@@ -3,7 +3,7 @@ import 'package:age_calculator/config/routes/routes_name.dart';
 import 'package:age_calculator/config/services/ads_service.dart';
 import 'package:age_calculator/l10n/app_localizations.dart';
 import 'package:age_calculator/core/theme/app_theme.dart';
-import '../widgets/common/cosmic_background.dart';
+import 'widgets/common/cosmic_background.dart';
 
 // ─────────────────────────────────────────────
 //  SplashView
