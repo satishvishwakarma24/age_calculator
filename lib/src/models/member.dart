@@ -1,60 +1,45 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'member.freezed.dart';
+part 'member.g.dart';
+
 /// Persisted member profile (stored in SharedPreferences).
-class Member {
-  final String id;
-  final String name;
-  final String avatar;
-  final DateTime birthDate;
-  final bool isPinned;
+@freezed
+class Member with _$Member {
+  const factory Member({
+    required String id,
+    required String name,
+    @Default('👤') String avatar,
+    @DateOnlyConverter() required DateTime birthDate,
+    @Default(false) bool isPinned,
+  }) = _Member;
 
-  const Member({
-    required this.id,
-    required this.name,
-    required this.avatar,
-    required this.birthDate,
-    this.isPinned = false,
-  });
+  factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+}
 
-  Member copyWith({
-    String? name,
-    String? avatar,
-    DateTime? birthDate,
-    bool? isPinned,
-  }) {
-    return Member(
-      id: id,
-      name: name ?? this.name,
-      avatar: avatar ?? this.avatar,
-      birthDate: birthDate ?? this.birthDate,
-      isPinned: isPinned ?? this.isPinned,
-    );
+class DateOnlyConverter implements JsonConverter<DateTime, Object?> {
+  const DateOnlyConverter();
+
+  @override
+  DateTime fromJson(Object? value) {
+    if (value is String) {
+      final parts = value.split('-');
+      if (parts.length == 3) {
+        return DateTime(
+          int.parse(parts[0]),
+          int.parse(parts[1]),
+          int.parse(parts[2]),
+        );
+      }
+    }
+    if (value is DateTime) {
+      return DateTime(value.year, value.month, value.day);
+    }
+    throw const FormatException('Invalid birthDate value');
   }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'avatar': avatar,
-        'birthDate': _dateKey(birthDate),
-        'isPinned': isPinned,
-      };
-
-  factory Member.fromJson(Map<String, dynamic> json) {
-    final dateStr = json['birthDate'] as String;
-    final parts = dateStr.split('-');
-    return Member(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      avatar: json['avatar'] as String? ?? '👤',
-      birthDate: DateTime(
-        int.parse(parts[0]),
-        int.parse(parts[1]),
-        int.parse(parts[2]),
-      ),
-      isPinned: json['isPinned'] as bool? ?? false,
-    );
-  }
-
-  static String _dateKey(DateTime d) =>
-      '${d.year.toString().padLeft(4, '0')}-'
-      '${d.month.toString().padLeft(2, '0')}-'
-      '${d.day.toString().padLeft(2, '0')}';
+  @override
+  Object toJson(DateTime date) => '${date.year.toString().padLeft(4, '0')}-'
+      '${date.month.toString().padLeft(2, '0')}-'
+      '${date.day.toString().padLeft(2, '0')}';
 }

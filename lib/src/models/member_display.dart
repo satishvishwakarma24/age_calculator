@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// UI-ready member row derived from a stored [Member].
-class MemberData {
-  final String id;
-  final String name;
-  final String avatar;
-  final String dobFormatted;
-  final String ageLabel;
-  final Color accentColor;
-  final bool isPinned;
-  final String? birthdayIn;
+part 'member_display.freezed.dart';
 
-  const MemberData({
-    required this.id,
-    required this.name,
-    required this.avatar,
-    required this.dobFormatted,
-    required this.ageLabel,
-    required this.accentColor,
-    this.isPinned = false,
-    this.birthdayIn,
-  });
+/// UI-ready member row derived from a stored
+@freezed
+class MemberData with _$MemberData {
+  const factory MemberData({
+    required String id,
+    required String name,
+    required String avatar,
+    required String dobFormatted,
+    required String ageLabel,
+    required Color accentColor,
+    @Default(false) bool isPinned,
+    String? birthdayIn,
+  }) = _MemberData;
 }
