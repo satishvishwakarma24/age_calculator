@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
 import 'app.dart';
+import 'config/services/ads_service.dart';
 import 'core/theme/theme_provider.dart';
 import 'src/utils/age_calculator_provider.dart';
 import 'core/utils/locale_provider.dart';
@@ -26,6 +27,8 @@ void main() async {
   ));
 
   FlutterNativeSplash.remove();
+
+  await AdsService.instance.initialize();
 
   runApp(
     MultiProvider(

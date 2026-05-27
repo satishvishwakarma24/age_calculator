@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:age_calculator/core/theme/app_theme.dart';
+import 'package:age_calculator/core/widgets/native_ad_widget.dart';
 import '../widgets/common/cosmic_nav_bar.dart';
 import 'calculator_view.dart';
 import 'solar_system_view.dart';
@@ -63,9 +64,15 @@ class _HomeViewState extends State<HomeView> {
             left: 0,
             right: 0,
             bottom: 0,
-            child: CosmicNavBar(
-              currentIndex: _currentIndex,
-              onTap: (i) => setState(() => _currentIndex = i),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_currentIndex == 0) const NativeAdWidget(),
+                CosmicNavBar(
+                  currentIndex: _currentIndex,
+                  onTap: (i) => setState(() => _currentIndex = i),
+                ),
+              ],
             ),
           ),
         ],

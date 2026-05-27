@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'config/routes/app_router.dart';
+import 'core/widgets/app_open_ad_widget.dart';
 import 'l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
@@ -16,31 +17,33 @@ class AgeCalcApp extends StatelessWidget {
     final themeProvider = context.watch<AppThemeProvider>();
     final localeProvider = context.watch<LocaleProvider>();
 
-    return MaterialApp(
-      title: 'Age Calc',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: themeProvider.themeMode,
-      locale: localeProvider.locale,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      localeResolutionCallback: (deviceLocale, supportedLocales) {
-        if (deviceLocale == null) return localeProvider.locale;
-        for (final supported in supportedLocales) {
-          if (supported.languageCode == deviceLocale.languageCode) {
-            return supported;
+    return AppOpenAdWidget(
+      child: MaterialApp(
+        title: 'Age Calc',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: themeProvider.themeMode,
+        locale: localeProvider.locale,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localeResolutionCallback: (deviceLocale, supportedLocales) {
+          if (deviceLocale == null) return localeProvider.locale;
+          for (final supported in supportedLocales) {
+            if (supported.languageCode == deviceLocale.languageCode) {
+              return supported;
+            }
           }
-        }
-        return localeProvider.locale;
-      },
-      builder: (context, child) {
-        _applySystemChrome(Theme.of(context).brightness);
-        return child ?? const SizedBox.shrink();
-      },
-      initialRoute: AppRouter.initialRoute,
-      onGenerateRoute: AppRouter.onGenerateRoute,
-      onUnknownRoute: AppRouter.onUnknownRoute,
+          return localeProvider.locale;
+        },
+        builder: (context, child) {
+          _applySystemChrome(Theme.of(context).brightness);
+          return child ?? const SizedBox.shrink();
+        },
+        initialRoute: AppRouter.initialRoute,
+        onGenerateRoute: AppRouter.onGenerateRoute,
+        onUnknownRoute: AppRouter.onUnknownRoute,
+      ),
     );
   }
 

@@ -1,4 +1,4 @@
-package com.krishhsoft.agecalculator
+package com.ageonplanets.age_calculator
 
 import io.flutter.embedding.android.FlutterActivity
 

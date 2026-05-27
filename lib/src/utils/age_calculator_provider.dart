@@ -10,7 +10,7 @@ class AgeCalculatorProvider extends ChangeNotifier {
   static final _displayFormat = DateFormat('d MMM yyyy');
   static final _birthdayFormat = DateFormat('d MMM yyyy');
 
-  DateTime _dateOfBirth = DateTime.now() ?? DateTime(1992, 3, 15);
+  DateTime _dateOfBirth = DateTime(2000, 1, 1);
   AgeResult? _result;
   bool _hasCalculated = false;
   bool _isCalculating = false;

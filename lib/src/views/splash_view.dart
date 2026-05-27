@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:age_calculator/config/routes/routes_name.dart';
+import 'package:age_calculator/config/services/ads_service.dart';
 import 'package:age_calculator/l10n/app_localizations.dart';
 import 'package:age_calculator/core/theme/app_theme.dart';
 import '../widgets/common/cosmic_background.dart';
-import '../widgets/common/cosmic_widgets.dart';
 
 // ─────────────────────────────────────────────
 //  SplashView
-//  First screen — centered logo, title, tagline
-//  and "Begin Exploration" CTA.
-//
-//  Navigation:
-//    CTA → RoutesName.homeScreen
+//  Branded splash; loads and shows app open ad before home.
 // ─────────────────────────────────────────────
 
 class SplashView extends StatefulWidget {
@@ -45,10 +41,27 @@ class _SplashViewState extends State<SplashView>
     );
 
     _ctrl.forward();
+    _launch();
   }
 
-  void _onBegin() {
-    Navigator.pushReplacementNamed(context, RoutesName.homeScreen);
+  Future<void> _launch() async {
+    final minDisplay = Future<void>.delayed(const Duration(milliseconds: 1500));
+
+    await Future.wait([
+      minDisplay,
+      AdsService.instance.waitForAppOpenAd(
+        timeout: const Duration(seconds: 5),
+      ),
+    ]);
+
+    if (!mounted) return;
+
+    await AdsService.instance.showAppOpenAdOnColdStart();
+
+    if (!mounted) return;
+
+    AdsService.instance.markColdStartComplete();
+    await Navigator.pushReplacementNamed(context, RoutesName.homeScreen);
   }
 
   @override
@@ -119,10 +132,13 @@ class _SplashViewState extends State<SplashView>
                       ),
                     ),
                     const SizedBox(height: 48),
-                    CosmicButton(
-                      label: l10n.beginExploration,
-                      onPressed: _onBegin,
-                      gradient: AppGradients.ctaBlue,
+                    const SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: AppColors.starBlue,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     Text(
