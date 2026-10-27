@@ -40,9 +40,9 @@ class AgeCalcApp extends StatelessWidget {
           _applySystemChrome(Theme.of(context).brightness);
           return child ?? const SizedBox.shrink();
         },
-        initialRoute: AppRouter.initialRoute,
-        onGenerateRoute: AppRouter.onGenerateRoute,
-        onUnknownRoute: AppRouter.onUnknownRoute,
+        // initialRoute: AppRouter.initialRoute,
+        // onGenerateRoute: AppRouter.onGenerateRoute,
+        // onUnknownRoute: AppRouter.onUnknownRoute,
       ),
     );
   }
