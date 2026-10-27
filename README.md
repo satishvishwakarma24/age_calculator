@@ -1,130 +1,109 @@
-# Age Calculator (Flutter)
+# Age Calculator 🌌
 
-A production-style, cosmic-themed age utility app built with Flutter.  
-It combines practical age tools (age breakdown, birthday countdown, member profiles) with astronomy-inspired visualization (planetary age equivalents), plus localization, theming, and ad integration.
+A cosmic-themed Flutter mobile application for age-related utilities, with Android and iOS projects, localization resources, customizable themes, and Google Mobile Ads integration.
 
-## Why This Project Stands Out
+> **Repository note:** This README describes the files currently tracked on `main`. The feature folders under `lib/modules/` contain empty controller, model, and screen placeholders. Screenshots illustrate the intended experience; they are not proof that every feature is implemented in the current checkout.
 
-- Clear feature modularization across routing, providers, views, and reusable widgets.
-- Local-first persistence using `SharedPreferences` for DOB and member profiles.
-- Multi-language support with generated localizations (`flutter gen-l10n`).
-- Freezed-based immutable data models for safer state updates.
-- Ad integration with Banner, Interstitial, Rewarded, and App Open support.
-
-## Feature Set
-
-- **Calculator**: age in years/months/days + totals + next birthday + zodiac.
-- **Solar System View**: converts Earth age to planetary age equivalents.
-- **Members**: add/edit/delete/pin members with upcoming birthday highlighting.
-- **Settings**: theme mode toggle + runtime locale switching.
-- **Splash + Navigation Shell**: animated route transitions and state-preserving tabs.
-
-## App Screenshots
+## Screenshots
 
 <p align="center">
-  <img src="assets/screenshots/calculator_home_screen.png" alt="Calculator home screen" width="240" />
-  <img src="assets/screenshots/solar_planets.png" alt="Solar planets screen" width="240" />
-  <img src="assets/screenshots/members.png" alt="Members screen" width="240" />
-  <img src="assets/screenshots/settings.png" alt="Settings screen" width="240" />
+  <img src="assets/screenshots/calculator_home_screen.png" alt="Age calculator" width="220" />
+  <img src="assets/screenshots/solar_planets.png" alt="Planetary age screen" width="220" />
+  <img src="assets/screenshots/members.png" alt="Members screen" width="220" />
+  <img src="assets/screenshots/settings.png" alt="Settings screen" width="220" />
 </p>
 
-## Architecture Overview
-
-The active app structure is centered around `config`, `core`, and `src`:
+## Project layout
 
 ```text
-lib/
-├── main.dart                      # App bootstrap, providers, orientation/system UI, ads init
-├── app.dart                       # MaterialApp wiring, theming, localization, router integration
-├── config/
-│   ├── routes/                    # Route names, validation, transition + route mapping
-│   └── services/                  # Ads service (Banner/Interstitial/Rewarded/AppOpen)
-├── core/
-│   ├── const.dart                 # Animation timings and app-level constants
-│   ├── theme/                     # Design system (colors, gradients, typography, theme provider)
-│   ├── utils/                     # Locale provider and shared runtime helpers
-│   └── widgets/                   # Ad widgets and app-open wrapper
-├── src/
-│   ├── enum/                      # Pure age/planet/zodiac calculation logic
-│   ├── models/                    # Freezed models + generated code
-│   ├── provider/                  # ChangeNotifier state managers
-│   └── views/                     # Screens + screen-scoped widgets
-└── l10n/                          # Generated localization output
+age_calculator/
+├── android/                   # Android host project and Gradle configuration
+├── ios/                       # iOS Runner and Xcode configuration
+├── assets/
+│   ├── images/                # App icon
+│   └── screenshots/           # README screenshots
+├── lib/
+│   ├── main.dart              # Flutter entry point
+│   ├── app.dart               # Application configuration
+│   ├── config/
+│   │   ├── routes/            # App router and route names
+│   │   └── services/          # Ads service
+│   ├── core/
+│   │   ├── const.dart         # Shared constants
+│   │   ├── theme/             # Theme and theme provider
+│   │   ├── utils/             # Locale provider
+│   │   └── widgets/           # Ad-related widgets
+│   ├── l10n/                  # ARB translations and generated Dart localizations
+│   └── modules/
+│       ├── age/               # Empty feature placeholders
+│       ├── birthday/          # Empty feature placeholders
+│       ├── planets/           # Empty feature placeholders
+│       ├── settings/          # Empty feature placeholders
+│       └── view.dart
+├── l10n.yaml                  # Localization generation settings
+├── analysis_options.yaml      # Dart analyzer settings
+├── pubspec.yaml               # Flutter dependencies and assets
+└── README.md
 ```
 
-## State Management and Data Flow
+## Technology
 
-- Uses `provider` + `ChangeNotifier`.
-- `AgeCalculatorProvider`
-  - Handles DOB selection, calculation lifecycle, and persisted DOB restore.
-  - Exposes `AgeResult` and derived planet ages to UI.
-- `MembersProvider`
-  - Handles CRUD, pinning, sorting, and birthday window filtering.
-  - Persists member list as JSON in `SharedPreferences`.
-- Models (`Member`, `MemberData`) use `freezed` for immutability/equality/copy semantics.
+- **Flutter / Dart** — cross-platform mobile development
+- **Provider** — state management dependency
+- **Shared Preferences** — local storage dependency
+- **Intl / Flutter Localizations** — internationalization
+- **Google Mobile Ads** — advertising integration
+- **Freezed / JSON Serializable** — model and serialization tooling
+- **Animations** — Flutter transition utilities
 
-## Routing and Navigation
-
-- Named routes centralized in `config/routes/routes_name.dart`.
-- `AppRouter` validates routes and resolves unknown routes safely.
-- Route transitions use `SharedAxisTransition` for consistent motion.
-- Main UX runs in `HomeView` via `IndexedStack` to preserve tab state.
-
-## Tech Stack
-
-- Flutter (Material 3 style usage with custom design language)
-- Provider (state management)
-- Freezed + Json Serializable (immutable models + serialization)
-- Shared Preferences (local persistence)
-- Intl + Flutter Localizations (multi-language support)
-- Google Mobile Ads (monetization modules)
+Dependencies are declared in [pubspec.yaml](pubspec.yaml). A dependency's presence does not necessarily mean its corresponding feature is fully implemented.
 
 ## Localization
 
-- Enabled via `flutter.generate: true`.
-- Backed by generated `AppLocalizations`.
-- Current supported language set is defined in `LocaleProvider`.
+Translation resources are included for Arabic, German, English, Spanish, French, Hindi, Indonesian, Japanese, Portuguese, Russian, and Chinese. Localization generation is configured through [l10n.yaml](l10n.yaml) and Flutter's `generate: true` setting.
 
-## Setup
+## Getting started
 
-### Prerequisites
+### Requirements
 
-- Flutter SDK (stable channel)
-- Dart SDK (matching Flutter)
-- Android Studio / Xcode for platform builds
+- Flutter SDK with a compatible Dart SDK (the project declares Dart `>=3.3.0 <4.0.0`)
+- Android Studio or another Android development environment for Android builds
+- macOS with Xcode for iOS builds
 
-### Install and Run
+### Run locally
 
 ```bash
+git clone https://github.com/satishvishwakarma24/age_calculator.git
+cd age_calculator
 flutter pub get
 flutter run
 ```
 
-### Generate Code (after model changes)
+### Useful development commands
 
 ```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-```
-
-### Regenerate Localization (after ARB changes)
-
-```bash
+flutter analyze
+flutter test
 flutter gen-l10n
+dart run build_runner build --delete-conflicting-outputs
 ```
 
-## Build and Assets
+`flutter test` requires tests to be present; the tracked tree currently has no top-level `test/` directory.
 
-- Native splash config is in `pubspec.yaml` (`flutter_native_splash`).
-- Launcher icon config is in `pubspec.yaml` (`flutter_launcher_icons`).
-- Screenshots used in this README are under `assets/screenshots/`.
+## Assets and app configuration
 
-## Interviewer Notes
+- App icon: `assets/images/icon.png`
+- Screenshot gallery: `assets/screenshots/`
+- Native splash and launcher icon settings: `pubspec.yaml`
+- Android configuration: `android/`
+- iOS configuration: `ios/`
 
-- This codebase demonstrates separation of concerns between UI, domain calculations, and app services.
-- The app is intentionally local-first and offline-friendly.
-- There are legacy/duplicate directories from earlier iterations (`lib/modules`, `lib/src/widgets`, `lib/src/utils`), while active implementations currently reside in `lib/src/views`, `lib/src/provider`, and `lib/src/enum`.
+For release builds, configure your own signing credentials and verify platform-specific ad settings. Do not commit private signing keys or secrets.
 
-## Current Platform Scope
+## Development status
 
-- Android and iOS supported.
-- Portrait orientation enforced for a focused mobile experience.
+The repository currently includes the application entry points, routing files, theme and locale providers, advertising service/widgets, platform projects, and translation resources. The age, birthday, planets, and settings feature modules currently contain zero-byte placeholders. Their implementations should be reviewed or completed before treating the project as feature-complete.
+
+## License
+
+No license file is currently tracked. Add a `LICENSE` file if you intend to grant reuse permissions.
