@@ -1,43 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'core/theme/app_theme.dart';
+import 'core/utils/locale_provider.dart';
 import 'modules/age/age_controller.dart';
 import 'modules/age/age_screen.dart';
 import 'modules/birthday/birthday_controller.dart';
 import 'modules/birthday/birthday_screen.dart';
-import 'modules/planets/planets_controller.dart';
 import 'modules/planets/planets_screen.dart';
 import 'modules/settings/settings_controller.dart';
 import 'modules/settings/settings_screen.dart';
 
-/// Composition root: provides the feature controllers and renders the tab shell.
-class AgeCalcApp extends StatelessWidget {
-  const AgeCalcApp({super.key});
+/// The main application shell with tab navigation.
+class MainShell extends StatefulWidget {
+  final int initialIndex;
+
+  const MainShell({super.key, this.initialIndex = 0});
 
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AgeController()),
-        ChangeNotifierProvider(create: (_) => BirthdayController()),
-        ChangeNotifierProvider(create: (_) => SettingsController()),
-        Provider(create: (_) => const PlanetsController()),
-      ],
-      child: const _AppShell(),
-    );
-  }
+  State<MainShell> createState() => _MainShellState();
 }
 
-class _AppShell extends StatefulWidget {
-  const _AppShell();
-
-  @override
-  State<_AppShell> createState() => _AppShellState();
-}
-
-class _AppShellState extends State<_AppShell> {
+class _MainShellState extends State<MainShell> {
   static const List<String> _titles = [
     'Your age',
     'Birthdays',
@@ -45,60 +29,61 @@ class _AppShellState extends State<_AppShell> {
     'Settings',
   ];
 
-  int _tab = 0;
+  late int _tab;
+
+  @override
+  void initState() {
+    super.initState();
+    _tab = widget.initialIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.watch<SettingsController>().themeMode;
-
-    return MaterialApp(
-      title: 'Age Calc',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: themeMode,
-      builder: (context, child) {
-        _applySystemChrome(Theme.of(context).brightness);
-        return child ?? const SizedBox.shrink();
-      },
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Row(
-            children: [
-              Icon(Icons.public, size: 20, color: AppColors.primaryPurple),
-              SizedBox(width: 8),
-              Text('Age Calc'),
-            ],
-          ),
-        ),
-        body: SafeArea(
-          child: ListView(
-            key: ValueKey(_tab),
-            padding: const EdgeInsets.all(20),
-            children: [
-              Text(
-                _titles[_tab],
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 16),
-              _pageFor(_tab),
-            ],
-          ),
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _tab,
-          onDestinationSelected: (i) => setState(() => _tab = i),
-          destinations: const [
-            NavigationDestination(icon: Icon(Icons.access_time), label: 'Age'),
-            NavigationDestination(icon: Icon(Icons.cake_outlined), label: 'Birthdays'),
-            NavigationDestination(icon: Icon(Icons.public), label: 'Planets'),
-            NavigationDestination(icon: Icon(Icons.settings_outlined), label: 'Settings'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/app-icon-512.png',
+              width: 40,
+              height: 40,
+            ),
+            const SizedBox(width: 8),
+            const Text('Age Calc'),
           ],
         ),
+      ),
+      body: SafeArea(
+        child: ListView(
+          key: ValueKey(_tab),
+          padding: const EdgeInsets.all(20),
+          children: [
+            Text(
+              _titles[_tab],
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _pageFor(_tab),
+          ],
+        ),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _tab,
+        onDestinationSelected: (i) => setState(() => _tab = i),
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.access_time), label: 'Age'),
+          NavigationDestination(
+              icon: Icon(Icons.cake_outlined), label: 'Birthdays'),
+          NavigationDestination(icon: Icon(Icons.public), label: 'Planets'),
+          NavigationDestination(
+              icon: Icon(Icons.settings_outlined), label: 'Settings'),
+        ],
       ),
     );
   }
@@ -120,18 +105,10 @@ class _AppShellState extends State<_AppShell> {
     final age = context.read<AgeController>();
     final birthdays = context.read<BirthdayController>();
     final settings = context.read<SettingsController>();
+    final locale = context.read<LocaleProvider>();
     await age.clear();
     await birthdays.clear();
     await settings.reset();
-  }
-
-  void _applySystemChrome(Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-      systemNavigationBarColor: isDark ? const Color(0xFF050A18) : AppColors.background,
-      systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-    ));
+    await locale.setLocale(const Locale('en'));
   }
 }

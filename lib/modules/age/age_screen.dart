@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/date_utils.dart';
@@ -11,27 +12,7 @@ import '../birthday/birthday_screen.dart';
 import '../settings/settings_controller.dart';
 import 'age_controller.dart';
 
-import 'dart:io';
-import 'dart:convert';
-
-void _debugReport(String id, dynamic data) {
-  try {
-    final client = HttpClient();
-    client.postUrl(Uri.parse('http://192.168.1.5:7777/event')).then((req) {
-      req.headers.set('content-type', 'application/json');
-      req.add(utf8.encode(jsonEncode({
-        'sessionId': 'birthday-save-crash',
-        'pointId': id,
-        'data': data,
-        'timestamp': DateTime.now().toIso8601String(),
-      })));
-      req.close();
-    });
-  } catch (_) {}
-}
-
 class AgeScreen extends StatelessWidget {
-
   const AgeScreen({super.key});
 
   @override
@@ -61,46 +42,46 @@ class AgeScreen extends StatelessWidget {
             TextButton(onPressed: age.clearAsOf, child: const Text('Clear Age on')),
           if (age.error != null)
             Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+              padding: EdgeInsets.only(bottom: 1.h),
               child: Text(age.error!, style: const TextStyle(color: Colors.redAccent)),
             ),
           FilledButton(onPressed: age.calculate, child: const Text('Calculate age')),
         ]),
       ),
       if (result != null && upcoming != null) ...[
-        const SizedBox(height: 16),
+        SizedBox(height: 2.h),
         Row(children: [
           _ResultCard(value: result.years.toString(), label: 'years'),
-          const SizedBox(width: 12),
+          SizedBox(width: 3.w),
           _ResultCard(value: result.months.toString(), label: 'months'),
-          const SizedBox(width: 12),
+          SizedBox(width: 3.w),
           _ResultCard(value: result.days.toString(), label: 'days'),
         ]),
-        const SizedBox(height: 24),
+        SizedBox(height: 3.h),
         Text(
           '${numberFormat.format(result.totalDays)} days · ${numberFormat.format(result.totalWeeks)} weeks · ${numberFormat.format(result.totalHours)} hours lived',
-          style: const TextStyle(color: AppColors.textSub, fontSize: 13),
+          style: TextStyle(color: AppColors.textSub, fontSize: 10.dp),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 3.h),
         SectionCard(
-          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+          padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 6.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 upcoming.daysUntil.toString(),
-                style: const TextStyle(
-                  fontSize: 48,
+                style: TextStyle(
+                  fontSize: 36.dp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.accentTeal,
                 ),
               ),
-              const SizedBox(width: 16),
-              const Expanded(
+              SizedBox(width: 4.w),
+              Expanded(
                 child: Text(
                   'days to your\nnext birthday',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 14.dp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textPrimary,
                     height: 1.2,
@@ -112,18 +93,15 @@ class AgeScreen extends StatelessWidget {
         ),
         Text(
           'Turning ${upcoming.turningAge} on ${formatDate(upcoming.date, format)}',
-          style: const TextStyle(color: AppColors.textSub, fontSize: 14),
+          style: TextStyle(color: AppColors.textSub, fontSize: 11.dp),
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 3.h),
         OutlinedButton(
-          onPressed: () {
-            _debugReport('age-screen-save-start', {'dob': age.dob?.toIso8601String()});
-            showBirthdayEditor(
-              context,
-              context.read<BirthdayController>(),
-              preset: age.dob,
-            );
-          },
+          onPressed: () => showBirthdayEditor(
+            context,
+            context.read<BirthdayController>(),
+            preset: age.dob,
+          ),
           child: const Text('Save to birthdays'),
         ),
       ],
@@ -139,16 +117,20 @@ class _ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(vertical: 2.5.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? theme.cardTheme.color : Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(
+            color: isDark ? theme.dividerColor : Colors.grey.shade200,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
+              color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -157,15 +139,15 @@ class _ResultCard extends StatelessWidget {
         child: Column(children: [
           Text(
             value,
-            style: const TextStyle(
-              fontSize: 32,
+            style: TextStyle(
+              fontSize: 24.dp,
               fontWeight: FontWeight.bold,
               color: AppColors.accentTeal,
             ),
           ),
           Text(
             label,
-            style: const TextStyle(color: AppColors.textSub, fontSize: 14),
+            style: TextStyle(color: AppColors.textSub, fontSize: 11.dp),
           ),
         ]),
       ),

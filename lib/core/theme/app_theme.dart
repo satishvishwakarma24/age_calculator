@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 
 class AppColors {
   AppColors._();
@@ -43,13 +44,13 @@ class AppTheme {
           secondary: AppColors.accentTeal,
           surface: AppColors.cardWhite,
         ),
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: false,
           titleTextStyle: TextStyle(
             color: AppColors.textPrimary,
-            fontSize: 20,
+            fontSize: 16.dp,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -109,13 +110,106 @@ class AppTheme {
         ),
       );
 
-  static ThemeData get dark => light.copyWith(
+  // ── Dark theme colours ──────────────────────
+  static const Color _darkBg = Color(0xFF050A18);
+  static const Color _darkCard = Color(0xFF0F1A3A);
+  static const Color _darkSurface = Color(0xFF17205A);
+  static const Color _darkInputFill = Color(0xFF111C3A);
+  static const Color _darkNavBar = Color(0xFF0A1030);
+  static const Color _darkBorder = Color(0xFF1E2D55);
+
+  static ThemeData get dark => ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF0A1030),
+        scaffoldBackgroundColor: _darkBg,
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.primaryPurple,
           brightness: Brightness.dark,
-          surface: const Color(0xFF17205A),
+          primary: AppColors.primaryPurple,
+          secondary: AppColors.accentTeal,
+          surface: _darkSurface,
         ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: false,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16.dp,
+            fontWeight: FontWeight.bold,
+          ),
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        cardTheme: CardThemeData(
+          color: _darkCard,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: _darkBorder),
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: AppColors.primaryPurple,
+            foregroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(56),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.white70,
+            minimumSize: const Size.fromHeight(56),
+            side: const BorderSide(color: _darkBorder),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: _darkInputFill,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: _darkBorder),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: _darkBorder),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.primaryPurple),
+          ),
+          labelStyle: const TextStyle(color: Colors.white60),
+          hintStyle: const TextStyle(color: Colors.white38),
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: _darkNavBar,
+          indicatorColor: AppColors.primaryPurple.withValues(alpha: 0.25),
+          labelTextStyle: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const TextStyle(
+                  color: AppColors.primaryPurple, fontWeight: FontWeight.bold);
+            }
+            return const TextStyle(color: Colors.white54);
+          }),
+          iconTheme: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const IconThemeData(color: AppColors.primaryPurple);
+            }
+            return const IconThemeData(color: Colors.white54);
+          }),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white70),
+          titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          titleMedium: TextStyle(color: Colors.white),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white70),
+        dividerColor: _darkBorder,
       );
 }

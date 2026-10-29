@@ -10,9 +10,81 @@
   "settingsSubtitle": "भाषा, थीम और प्राथमिकताएँ",
   "theme": "थीम",
   "darkMode": "डार्क मोड",
-  "navCalc": "कैल्क",
+  "navCalc": "आयु",
   "navPlanets": "ग्रह",
-  "navCompare": "तुलना",
-  "navMembers": "सदस्य",
-  "navSettings": "सेटिंग्स"
+  "navBirthdays": "जन्मदिन",
+  "navSettings": "सेटिंग्स",
+  "tabYourAge": "आपकी आयु",
+  "tabBirthdays": "जन्मदिन",
+  "tabPlanets": "अन्य ग्रहों पर आयु",
+  "tabSettings": "सेटिंग्स",
+  "dateOfBirth": "जन्म तिथि",
+  "ageOnOptional": "इस तारीख पर आयु (वैकल्पिक)",
+  "clearAgeOn": "तारीख साफ़ करें",
+  "calculateAge": "आयु गणना करें",
+  "years": "वर्ष",
+  "months": "महीने",
+  "days": "दिन",
+  "hoursLived": "{days} दिन · {weeks} सप्ताह · {hours} घंटे जिए",
+  "@hoursLived": {
+    "placeholders": {
+      "days": {"type": "String"},
+      "weeks": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "daysToNextBirthday": "दिन आपके\nअगले जन्मदिन तक",
+  "turningAge": "{date} को {age} वर्ष के होंगे",
+  "@turningAge": {
+    "placeholders": {
+      "age": {"type": "int"},
+      "date": {"type": "String"}
+    }
+  },
+  "saveToBirthdays": "जन्मदिन में सहेजें",
+  "searchBirthdays": "नाम या समूह से खोजें",
+  "addBirthday": "जन्मदिन जोड़ें",
+  "noBirthdaysFound": "कोई जन्मदिन नहीं मिला।",
+  "daysLabel": "{n} दिन",
+  "@daysLabel": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "deleteBirthday": "जन्मदिन हटाएं?",
+  "deleteBirthdayConfirm": "क्या आप {name} को हटाना चाहते हैं?",
+  "@deleteBirthdayConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "cancel": "रद्द करें",
+  "delete": "हटाएं",
+  "addBirthdayTitle": "जन्मदिन जोड़ें",
+  "editBirthdayTitle": "जन्मदिन संपादित करें",
+  "namePlaceholder": "नाम",
+  "selectDate": "तारीख चुनें",
+  "groupPlaceholder": "समूह",
+  "save": "सहेजें",
+  "nameRequired": "नाम आवश्यक है",
+  "calculateFirst": "पहले अपनी आयु गणना करें।",
+  "yourAgeOnPlanet": "इस ग्रह पर आपकी आयु",
+  "close": "बंद करें",
+  "diameter": "व्यास",
+  "mass": "द्रव्यमान",
+  "distanceFromSun": "सूर्य से दूरी",
+  "averageTemp": "औसत तापमान",
+  "orbitalPeriod": "कक्षीय अवधि",
+  "earthYears": "{n} पृथ्वी वर्ष",
+  "@earthYears": {
+    "placeholders": {
+      "n": {"type": "String"}
+    }
+  },
+  "dateFormat": "तारीख प्रारूप",
+  "deleteAllData": "सभी सहेजा डेटा हटाएं",
+  "deleteAllConfirmTitle": "सभी डेटा हटाएं?",
+  "deleteAllConfirmBody": "यह क्रिया स्थायी है। आपकी सभी गणनाएं, जन्मदिन और प्राथमिकताएं मिटा दी जाएंगी।",
+  "deleteAll": "सब हटाएं",
+  "privacyFooter": "सब कुछ इस डिवाइस पर रहता है।\nग्रह आयु अनुमानित हैं।"
 }

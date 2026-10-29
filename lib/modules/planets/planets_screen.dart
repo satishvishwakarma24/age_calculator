@@ -29,11 +29,19 @@ class PlanetsScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
-                    color: _getPlanetColor(entry.planet.name),
+                    color: _getPlanetColor(entry.planet.name).withOpacity(0.1),
                     shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'assets/planets/${entry.planet.name.toLowerCase()}.png',
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => Icon(
+                      Icons.public,
+                      color: _getPlanetColor(entry.planet.name),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -45,7 +53,7 @@ class PlanetsScreen extends StatelessWidget {
                         entry.planet.name,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 16,
                           color: AppColors.textPrimary,
                         ),
                       ),
@@ -55,30 +63,47 @@ class PlanetsScreen extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: entry.progress,
                           backgroundColor: Colors.grey.shade200,
-                          valueColor: const AlwaysStoppedAnimation<Color>(AppColors.accentTeal),
-                          minHeight: 6,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                              AppColors.accentTeal),
+                          minHeight: 8,
+                          borderRadius: BorderRadius.circular(4),
+
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Year = ${entry.planet.earthYearsPerOrbit} Earth years',
-                        style: const TextStyle(color: AppColors.textSub, fontSize: 12),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(
-                  entry.years.toStringAsFixed(2),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: AppColors.accentTeal,
+                // Optimized container offering robust layouts without overflow risks
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryPurple
+                        .withAlpha(25), // Soft, subtle background tint
+                    borderRadius:
+                        BorderRadius.circular(20), // Modern pill-shaped badge
+                  ),
+                  child: Text(
+                    '${entry.years.toStringAsFixed(2)} y',
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      fontWeight:
+                          FontWeight.w600, // Medium-bold for premium feel
+                      fontSize: 14,
+                      color: AppColors
+                          .primaryPurple, // Content color aligns with background
+                      fontFeatures: [
+                        FontFeature.tabularFigures()
+                      ], // Keeps numbers perfectly aligned
+                    ),
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.info_outline, color: AppColors.textSub, size: 20),
-                  onPressed: () => _showPlanetDetails(context, entry.planet, entry.years),
+                  icon: const Icon(Icons.info_outline,
+                      color: AppColors.textSub, size: 24),
+                  onPressed: () =>
+                      _showPlanetDetails(context, entry.planet, entry.years),
                 ),
               ]),
             ),
@@ -87,12 +112,14 @@ class PlanetsScreen extends StatelessWidget {
     ]);
   }
 
-  void _showPlanetDetails(BuildContext context, Planet planet, double ageOnPlanet) {
+  void _showPlanetDetails(
+      BuildContext context, Planet planet, double ageOnPlanet) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => _PlanetDetailSheet(planet: planet, ageOnPlanet: ageOnPlanet),
+      builder: (context) =>
+          _PlanetDetailSheet(planet: planet, ageOnPlanet: ageOnPlanet),
     );
   }
 
@@ -160,27 +187,40 @@ class _PlanetDetailSheet extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const Icon(Icons.public, color: AppColors.primaryPurple, size: 32),
+              Image.asset(
+                'assets/planets/${planet.name.toLowerCase()}.png',
+                width: 48,
+                height: 48,
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.public,
+                  color: AppColors.primaryPurple,
+                  size: 32,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
           Text(
             planet.description,
-            style: const TextStyle(fontSize: 16, color: AppColors.textSub, height: 1.5),
+            style: const TextStyle(
+                fontSize: 16, color: AppColors.textSub, height: 1.5),
           ),
           const SizedBox(height: 24),
           _InfoRow(label: 'Diameter', value: planet.diameter),
           _InfoRow(label: 'Mass', value: planet.mass),
           _InfoRow(label: 'Distance from Sun', value: planet.distance),
           _InfoRow(label: 'Average Temp', value: planet.temperature),
-          _InfoRow(label: 'Orbital Period', value: '${planet.earthYearsPerOrbit} Earth years'),
+          _InfoRow(
+              label: 'Orbital Period',
+              value: '${planet.earthYearsPerOrbit} Earth years'),
           const SizedBox(height: 32),
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.primaryPurple.withOpacity(0.05),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.primaryPurple.withOpacity(0.1)),
+              border:
+                  Border.all(color: AppColors.primaryPurple.withOpacity(0.1)),
             ),
             child: Column(
               children: [
@@ -225,7 +265,8 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: AppColors.textSub, fontSize: 14)),
+          Text(label,
+              style: const TextStyle(color: AppColors.textSub, fontSize: 14)),
           Text(
             value,
             style: const TextStyle(

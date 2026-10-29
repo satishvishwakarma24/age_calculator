@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/date_utils.dart';
@@ -8,27 +9,7 @@ import '../settings/settings_controller.dart';
 import 'birthday_controller.dart';
 import 'birthday_model.dart';
 
-import 'dart:io';
-import 'dart:convert';
-
-void _debugReport(String id, dynamic data) {
-  try {
-    final client = HttpClient();
-    client.postUrl(Uri.parse('http://192.168.1.5:7777/event')).then((req) {
-      req.headers.set('content-type', 'application/json');
-      req.add(utf8.encode(jsonEncode({
-        'sessionId': 'birthday-save-crash',
-        'pointId': id,
-        'data': data,
-        'timestamp': DateTime.now().toIso8601String(),
-      })));
-      req.close();
-    });
-  } catch (_) {}
-}
-
 class BirthdayScreen extends StatelessWidget {
-
   const BirthdayScreen({super.key});
 
   @override
@@ -43,7 +24,7 @@ class BirthdayScreen extends StatelessWidget {
           hintText: 'Search by name or group',
           prefixIcon: const Icon(Icons.search, color: AppColors.textSub),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Theme.of(context).inputDecorationTheme.fillColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide(color: Colors.grey.shade200),
@@ -52,60 +33,64 @@ class BirthdayScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide(color: Colors.grey.shade200),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          contentPadding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.5.h),
         ),
       ),
-      const SizedBox(height: 24),
+      SizedBox(height: 3.h),
       FilledButton(
         onPressed: () => showBirthdayEditor(context, controller),
         child: const Text('Add birthday'),
       ),
-      const SizedBox(height: 24),
+      SizedBox(height: 3.h),
       if (people.isEmpty) const SectionCard(child: Text('No birthdays found.')),
       for (final person in people)
         SectionCard(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
           child: InkWell(
             onTap: () => showBirthdayEditor(context, controller, existing: person),
             child: Row(children: [
               CircleAvatar(
-                radius: 24,
+                radius: 6.w,
                 backgroundColor: _getAvatarColor(person.group),
                 child: Text(
                   person.initial,
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.dp,
+                  ),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 4.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       person.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 14.dp,
                         color: AppColors.textPrimary,
                       ),
                     ),
                     Text(
                       person.group,
-                      style: const TextStyle(color: AppColors.textSub, fontSize: 14),
+                      style: TextStyle(color: AppColors.textSub, fontSize: 10.dp),
                     ),
                   ],
                 ),
               ),
               Text(
                 '${person.daysUntilNext} days',
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 12.dp,
                   color: AppColors.accentTeal,
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.delete_outline, color: AppColors.textSub, size: 20),
+                icon: Icon(Icons.delete_outline, color: AppColors.textSub, size: 5.w),
                 onPressed: () => _confirmDelete(context, controller, person),
               ),
             ]),
@@ -146,7 +131,8 @@ class BirthdayScreen extends StatelessWidget {
         ],
       ),
     );
-    if (ok == true) await controller.remove(person.id);
+    // Guard: widget may have been unmounted while the dialog was open.
+    if (ok == true && context.mounted) await controller.remove(person.id);
   }
 }
 
@@ -156,7 +142,6 @@ Future<void> showBirthdayEditor(
   Person? existing,
   DateTime? preset,
 }) async {
-  _debugReport('birthday-editor-start', {'existing': existing?.id, 'preset': preset?.toIso8601String()});
   final nameController = TextEditingController(text: existing?.name ?? '');
   final format = context.read<SettingsController>().format;
   DateTime? date = existing?.date ?? preset;
@@ -165,104 +150,91 @@ Future<void> showBirthdayEditor(
 
   final result = await showDialog<Person>(
     context: context,
-    builder: (c) {
-      _debugReport('birthday-dialog-build', {});
-      return StatefulBuilder(
-        builder: (c, refresh) => AlertDialog(
-          title: Text(existing == null ? 'Add birthday' : 'Edit birthday'),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          content: SingleChildScrollView(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              TextField(
-                controller: nameController,
-                maxLength: 40,
-                decoration: const InputDecoration(hintText: 'Name'),
-              ),
-              const SizedBox(height: 12),
-              OutlinedButton.icon(
-                onPressed: () async {
-                  _debugReport('birthday-datepicker-open', {});
-                  final picked = await showDatePicker(
-                    context: c,
-                    initialDate: date ?? now,
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime(2100),
-                  );
-                  if (picked != null) {
-                    _debugReport('birthday-datepicker-picked', {'date': picked.toIso8601String()});
-                    refresh(() => date = dateOnly(picked));
-                  }
-                },
-                icon: const Icon(Icons.calendar_month),
-                label: Text(date == null ? 'Date of birth' : formatDate(date!, format)),
-              ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<String>(
+    builder: (c) => StatefulBuilder(
+      builder: (c, refresh) => AlertDialog(
+        title: Text(existing == null ? 'Add birthday' : 'Edit birthday'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        content: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            TextField(
+              controller: nameController,
+              maxLength: 40,
+              decoration: const InputDecoration(hintText: 'Name'),
+            ),
+            SizedBox(height: 2.h),
+            OutlinedButton.icon(
+              onPressed: () async {
+                final picked = await showDatePicker(
+                  context: c,
+                  initialDate: date ?? now,
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime(2100),
+                );
+                if (picked != null) refresh(() => date = dateOnly(picked));
+              },
+              icon: const Icon(Icons.calendar_month),
+              label: Text(date == null ? 'Date of birth' : formatDate(date!, format)),
+            ),
+            SizedBox(height: 2.h),
+            DropdownButtonFormField<String>(
               value: group,
               decoration: const InputDecoration(hintText: 'Group'),
-                items: birthdayGroups
-                    .map((g) => DropdownMenuItem(value: g, child: Text(g)))
-                    .toList(),
-                onChanged: (v) => refresh(() => group = v ?? group),
-              ),
-              if (error.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(error, style: const TextStyle(color: Colors.redAccent)),
-                ),
-            ]),
-          ),
-          actions: [
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(c),
-                    child: const Text('Cancel'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: FilledButton(
-                    onPressed: () {
-                      _debugReport('birthday-dialog-save-press', {'name': nameController.text});
-                      final name = nameController.text.trim();
-                      final validation = validateDob(date);
-                      if (name.isEmpty || validation != null) {
-                        _debugReport('birthday-dialog-save-invalid', {'error': validation});
-                        refresh(() => error = name.isEmpty ? 'Name is required' : validation!);
-                        return;
-                      }
-                      _debugReport('birthday-dialog-save-success', {'name': name, 'date': date?.toIso8601String()});
-                      Navigator.pop(
-                        c,
-                        Person(
-                          id: existing?.id ?? DateTime.now().microsecondsSinceEpoch.toString(),
-                          name: name,
-                          group: group,
-                          date: date!,
-                        ),
-                      );
-                    },
-                    child: const Text('Save'),
-                  ),
-                ),
-              ],
+              items: birthdayGroups
+                  .map((g) => DropdownMenuItem(value: g, child: Text(g)))
+                  .toList(),
+              onChanged: (v) => refresh(() => group = v ?? group),
             ),
-          ],
+            if (error.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.only(top: 1.h),
+                child: Text(error, style: const TextStyle(color: Colors.redAccent)),
+              ),
+          ]),
         ),
-      );
-    },
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => Navigator.pop(c),
+                  child: const Text('Cancel'),
+                ),
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: FilledButton(
+                  onPressed: () {
+                    final name = nameController.text.trim();
+                    final validation = validateDob(date);
+                    if (name.isEmpty || validation != null) {
+                      refresh(() => error = name.isEmpty ? 'Name is required' : validation!);
+                      return;
+                    }
+                    Navigator.pop(
+                      c,
+                      Person(
+                        id: existing?.id ?? DateTime.now().microsecondsSinceEpoch.toString(),
+                        name: name,
+                        group: group,
+                        date: date!,
+                      ),
+                    );
+                  },
+                  child: const Text('Save'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
   );
-  _debugReport('birthday-dialog-closed', {'result': result?.id});
   nameController.dispose();
 
   if (result == null) return;
   if (existing == null) {
-    _debugReport('birthday-controller-add', {'id': result.id});
     await controller.add(result);
   } else {
-    _debugReport('birthday-controller-update', {'id': result.id});
     await controller.update(existing.id, result);
   }
 }

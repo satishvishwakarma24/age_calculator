@@ -10,9 +10,81 @@
   "settingsSubtitle": "Language, theme & preferences",
   "theme": "Theme",
   "darkMode": "Dark mode",
-  "navCalc": "Calc",
+  "navCalc": "Age",
   "navPlanets": "Planets",
-  "navCompare": "Compare",
-  "navMembers": "Members",
-  "navSettings": "Settings"
+  "navBirthdays": "Birthdays",
+  "navSettings": "Settings",
+  "tabYourAge": "Your age",
+  "tabBirthdays": "Birthdays",
+  "tabPlanets": "Age on other planets",
+  "tabSettings": "Settings",
+  "dateOfBirth": "Date of birth",
+  "ageOnOptional": "Age on (optional)",
+  "clearAgeOn": "Clear Age on",
+  "calculateAge": "Calculate age",
+  "years": "years",
+  "months": "months",
+  "days": "days",
+  "hoursLived": "{days} days · {weeks} weeks · {hours} hours lived",
+  "@hoursLived": {
+    "placeholders": {
+      "days": {"type": "String"},
+      "weeks": {"type": "String"},
+      "hours": {"type": "String"}
+    }
+  },
+  "daysToNextBirthday": "days to your\nnext birthday",
+  "turningAge": "Turning {age} on {date}",
+  "@turningAge": {
+    "placeholders": {
+      "age": {"type": "int"},
+      "date": {"type": "String"}
+    }
+  },
+  "saveToBirthdays": "Save to birthdays",
+  "searchBirthdays": "Search by name or group",
+  "addBirthday": "Add birthday",
+  "noBirthdaysFound": "No birthdays found.",
+  "daysLabel": "{n} days",
+  "@daysLabel": {
+    "placeholders": {
+      "n": {"type": "int"}
+    }
+  },
+  "deleteBirthday": "Delete birthday?",
+  "deleteBirthdayConfirm": "Are you sure you want to delete {name}?",
+  "@deleteBirthdayConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "addBirthdayTitle": "Add birthday",
+  "editBirthdayTitle": "Edit birthday",
+  "namePlaceholder": "Name",
+  "selectDate": "Select date",
+  "groupPlaceholder": "Group",
+  "save": "Save",
+  "nameRequired": "Name is required",
+  "calculateFirst": "Calculate your age first.",
+  "yourAgeOnPlanet": "Your age on this planet",
+  "close": "Close",
+  "diameter": "Diameter",
+  "mass": "Mass",
+  "distanceFromSun": "Distance from Sun",
+  "averageTemp": "Average Temp",
+  "orbitalPeriod": "Orbital Period",
+  "earthYears": "{n} Earth years",
+  "@earthYears": {
+    "placeholders": {
+      "n": {"type": "String"}
+    }
+  },
+  "dateFormat": "Date format",
+  "deleteAllData": "Delete all saved data",
+  "deleteAllConfirmTitle": "Delete all saved data?",
+  "deleteAllConfirmBody": "This action is permanent. All your calculated ages, birthdays, and preferences will be wiped.",
+  "deleteAll": "Delete all",
+  "privacyFooter": "Everything stays on this device.\nPlanet ages are approximate."
 }

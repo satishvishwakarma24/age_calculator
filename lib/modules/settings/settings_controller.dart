@@ -24,7 +24,10 @@ class SettingsController extends ChangeNotifier {
       case 'dark':
         return ThemeMode.dark;
       default:
-        return ThemeMode.system;
+        // return ThemeMode.system;
+/// For now, always return light mode to avoid issues with dark mode on some devices.
+        return ThemeMode.light;
+
     }
   }
 
@@ -36,7 +39,7 @@ class SettingsController extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _settings = AppSettings(
       theme: prefs.getString(themeKey) ?? 'system',
-      format: prefs.getString(formatKey) ?? 'dmy',
+      format: prefs.getString(formatKey) ?? 'ddmmyy',
     );
     notifyListeners();
   }
