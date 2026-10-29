@@ -1,7 +1,7 @@
 name: age_calculator
 description: A cosmic-themed Flutter app for exploring age in multiple ways.
 publish_to: 'none'
-version: 1.0.0+10
+version: 1.0.0+21
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -67,16 +67,17 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/planets/
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/images/icon.png
+  image: assets/images/app-icon-512.png
   android: true
   ios: true
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/app-icon-512.png"
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/images/icon.png"
+  adaptive_icon_foreground: "assets/images/app-icon-512.png"

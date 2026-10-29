@@ -28,6 +28,7 @@ class SettingsScreen extends StatelessWidget {
             ],
             onChanged: (v) => settings.setTheme(v ?? 'system'),
           ),
+          const SizedBox(height: 12),
           DropdownButtonFormField<String>(
             value: settings.format,
             decoration: const InputDecoration(labelText: 'Date format'),

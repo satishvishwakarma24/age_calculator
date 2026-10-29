@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'core/theme/app_theme.dart';
 import 'modules/age/age_controller.dart';
 import 'modules/age/age_screen.dart';
 import 'modules/birthday/birthday_controller.dart';
@@ -53,21 +54,36 @@ class _AppShellState extends State<_AppShell> {
     return MaterialApp(
       title: 'Age Calc',
       debugShowCheckedModeBanner: false,
-      theme: _lightTheme,
-      darkTheme: _darkTheme,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
       themeMode: themeMode,
       builder: (context, child) {
         _applySystemChrome(Theme.of(context).brightness);
         return child ?? const SizedBox.shrink();
       },
       home: Scaffold(
-        appBar: AppBar(title: const Text('◷  Age Calc')),
+        appBar: AppBar(
+          title: const Row(
+            children: [
+              Icon(Icons.public, size: 20, color: AppColors.primaryPurple),
+              SizedBox(width: 8),
+              Text('Age Calc'),
+            ],
+          ),
+        ),
         body: SafeArea(
           child: ListView(
             key: ValueKey(_tab),
             padding: const EdgeInsets.all(20),
             children: [
-              Text(_titles[_tab], style: Theme.of(context).textTheme.headlineSmall),
+              Text(
+                _titles[_tab],
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                ),
+              ),
               const SizedBox(height: 16),
               _pageFor(_tab),
             ],
@@ -114,26 +130,8 @@ class _AppShellState extends State<_AppShell> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-      systemNavigationBarColor:
-          isDark ? const Color(0xFF050A18) : const Color(0xFFEEF3FB),
-      systemNavigationBarIconBrightness:
-          isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarColor: isDark ? const Color(0xFF050A18) : AppColors.background,
+      systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
     ));
   }
 }
-
-final ThemeData _lightTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF7C5CFF)),
-  scaffoldBackgroundColor: const Color(0xFFF4F6FF),
-);
-
-final ThemeData _darkTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color(0xFF7C5CFF),
-    brightness: Brightness.dark,
-    surface: const Color(0xFF17205A),
-  ),
-  scaffoldBackgroundColor: const Color(0xFF0A1030),
-);
