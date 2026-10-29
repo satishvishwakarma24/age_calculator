@@ -2,7 +2,7 @@ name: age_calculator
 description: A cosmic-themed Flutter app for exploring age in multiple ways.
 publish_to: 'none'
 version: 1.0.1+21
-
+# 21 (1.0.1) deployed on playstore
 environment:
   sdk: '>=3.3.0 <4.0.0'
 
@@ -18,8 +18,8 @@ dependencies:
   # firebase_messaging: ^15.1.3
   # firebase_crashlytics: ^4.1.3
 
-  # Ads — temporarily disabled (uncomment to re-enable)
-  # google_mobile_ads: ^5.1.0
+  # Ads
+  google_mobile_ads: ^5.1.0
 
   # In-App Purchase
   # in_app_purchase: ^3.2.0
