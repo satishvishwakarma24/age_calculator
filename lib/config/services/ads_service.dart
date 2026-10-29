@@ -22,8 +22,8 @@ class AdsService {
   // Test IDs are used automatically in debug mode.
 
   static String get _bannerId => kDebugMode
-      ? 'ca-app-pub-3940256099942544/6300978111'     // test
-      : 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';   // production
+      ? 'ca-app-pub-3940256099942544/6300978111' // test
+      : 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX'; // production
 
   static String get _interstitialId => kDebugMode
       ? 'ca-app-pub-3940256099942544/1033173712'
@@ -174,7 +174,8 @@ class AdsService {
     );
   }
 
-  void showRewarded({required void Function(AdWithoutView, RewardItem) onRewarded}) {
+  void showRewarded(
+      {required void Function(AdWithoutView, RewardItem) onRewarded}) {
     if (_isRewardedReady && _rewardedAd != null) {
       _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
         onAdDismissedFullScreenContent: (ad) {

@@ -1,40 +1,39 @@
 import 'package:flutter/material.dart';
 
-
 class AppColors {
   AppColors._();
 
   // ── Background ─────────────────────────────
-  static const Color bgDeep       = Color(0xFF050A18);
-  static const Color bgMid        = Color(0xFF0D1F3C);
+  static const Color bgDeep = Color(0xFF050A18);
+  static const Color bgMid = Color(0xFF0D1F3C);
 
   // ── Brand / Accent ─────────────────────────
-  static const Color  starBlue     = Color(0xFF4FC3F7);  // primary CTA & glow
-  static const Color tealAccent   = Color(0xFF26C6DA);  // compare screen
-  static const Color lavender     = Color(0xFFCE93D8);  // members & months
-  static const Color amber        = Color(0xFFFFD54F);  // birthdays & hours
-  static const Color orange       = Color(0xFFFF7043);  // Mars
+  static const Color starBlue = Color(0xFF4FC3F7); // primary CTA & glow
+  static const Color tealAccent = Color(0xFF26C6DA); // compare screen
+  static const Color lavender = Color(0xFFCE93D8); // members & months
+  static const Color amber = Color(0xFFFFD54F); // birthdays & hours
+  static const Color orange = Color(0xFFFF7043); // Mars
 
   // ── Surface / Glass ─────────────────────────
-  static Color glassBlue          = starBlue.withOpacity(0.04);
-  static Color glassBorder        = starBlue.withOpacity(0.15);
-  static Color glassBorderWeak    = starBlue.withOpacity(0.10);
+  static Color glassBlue = starBlue.withOpacity(0.04);
+  static Color glassBorder = starBlue.withOpacity(0.15);
+  static Color glassBorderWeak = starBlue.withOpacity(0.10);
 
   // ── Text ────────────────────────────────────
-  static const Color textPrimary  = Color(0xFFF0F4FF);
-  static const Color textSub      = Color(0xFF8899BB);
-  static const Color textMuted    = Color(0xFF3D5070);
-  static const Color textOnCta    = Color(0xFF050A18);  // dark text on CTA btn
+  static const Color textPrimary = Color(0xFFF0F4FF);
+  static const Color textSub = Color(0xFF8899BB);
+  static const Color textMuted = Color(0xFF3D5070);
+  static const Color textOnCta = Color(0xFF050A18); // dark text on CTA btn
 
   // ── Planet palette ──────────────────────────
-  static const Color mercury      = Color(0xFFBDBDBD);
-  static const Color venus        = Color(0xFFFFCC02);
-  static const Color mars         = Color(0xFFFF7043);
-  static const Color jupiter      = Color(0xFFFFAB40);
-  static const Color saturn       = Color(0xFFF3E5AB);
-  static const Color uranus       = Color(0xFF80DEEA);
-  static const Color neptune      = Color(0xFF5C6BC0);
-  static const Color sun          = Color(0xFFFFD700);
+  static const Color mercury = Color(0xFFBDBDBD);
+  static const Color venus = Color(0xFFFFCC02);
+  static const Color mars = Color(0xFFFF7043);
+  static const Color jupiter = Color(0xFFFFAB40);
+  static const Color saturn = Color(0xFFF3E5AB);
+  static const Color uranus = Color(0xFF80DEEA);
+  static const Color neptune = Color(0xFF5C6BC0);
+  static const Color sun = Color(0xFFFFD700);
 }
 
 // ─────────────────────────────────────────────
@@ -202,21 +201,21 @@ class AppText {
 class AppDimens {
   AppDimens._();
 
-  static const double radiusCard    = 16.0;
-  static const double radiusField   = 10.0;
-  static const double radiusButton  = 12.0;
-  static const double radiusTag     = 6.0;
-  static const double radiusOrb     = 999.0;
+  static const double radiusCard = 16.0;
+  static const double radiusField = 10.0;
+  static const double radiusButton = 12.0;
+  static const double radiusTag = 6.0;
+  static const double radiusOrb = 999.0;
 
-  static const double paddingPage   = 20.0;
-  static const double paddingCard   = 16.0;
-  static const double gapSm        = 8.0;
-  static const double gapMd        = 12.0;
-  static const double gapLg        = 16.0;
-  static const double gapXl        = 24.0;
+  static const double paddingPage = 20.0;
+  static const double paddingCard = 16.0;
+  static const double gapSm = 8.0;
+  static const double gapMd = 12.0;
+  static const double gapLg = 16.0;
+  static const double gapXl = 24.0;
 
-  static const double navBarHeight  = 70.0;
-  static const double fabSize       = 56.0;
+  static const double navBarHeight = 70.0;
+  static const double fabSize = 56.0;
 }
 
 // ─────────────────────────────────────────────
@@ -226,21 +225,22 @@ class AppDimens {
 class AppShadows {
   AppShadows._();
 
-  static List<BoxShadow> glowBlue({double spread = 20, double opacity = 0.5}) => [
-    BoxShadow(
-      color: AppColors.starBlue.withOpacity(opacity),
-      blurRadius: spread,
-      spreadRadius: spread * 0.15,
-    ),
-  ];
+  static List<BoxShadow> glowBlue({double spread = 20, double opacity = 0.5}) =>
+      [
+        BoxShadow(
+          color: AppColors.starBlue.withOpacity(opacity),
+          blurRadius: spread,
+          spreadRadius: spread * 0.15,
+        ),
+      ];
 
   static List<BoxShadow> glowLavender({double spread = 20}) => [
-    BoxShadow(
-      color: AppColors.lavender.withOpacity(0.4),
-      blurRadius: spread,
-      spreadRadius: spread * 0.1,
-    ),
-  ];
+        BoxShadow(
+          color: AppColors.lavender.withOpacity(0.4),
+          blurRadius: spread,
+          spreadRadius: spread * 0.1,
+        ),
+      ];
 
   static List<BoxShadow> card = [
     BoxShadow(
@@ -346,7 +346,8 @@ class CosmicTheme extends ThemeExtension<CosmicTheme> {
       navBarBackground:
           Color.lerp(navBarBackground, other.navBarBackground, t)!,
       starParticle: Color.lerp(starParticle, other.starParticle, t)!,
-      backgroundGradient: t < 0.5 ? backgroundGradient : other.backgroundGradient,
+      backgroundGradient:
+          t < 0.5 ? backgroundGradient : other.backgroundGradient,
     );
   }
 }

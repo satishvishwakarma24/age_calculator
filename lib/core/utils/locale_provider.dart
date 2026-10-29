@@ -6,8 +6,7 @@ import '../../l10n/app_localizations.dart';
 class LocaleProvider extends ChangeNotifier {
   static const _key = 'app_locale';
 
-  static List<Locale> get supportedLocales =>
-      AppLocalizations.supportedLocales;
+  static List<Locale> get supportedLocales => AppLocalizations.supportedLocales;
 
   static const Map<String, String> localeNames = {
     'en': 'English',
